@@ -4,8 +4,8 @@ function getEmployeeByName(employeeName) {
   // seu código aqui
   if (!employeeName) return {};
   const allEmployees = data.employees;
-  /* Após muitas tentativas de reduzir o tamanho da linha seguinte, cheguei a esta ideia aproveitando a lógica de 'destructuring',
-  embora de maneira 'invertida' */
+  /* Cheguei a esta ideia aproveitando a lógica de 'destructuring',  embora de maneira 'invertida':
+  ao colocar ambas variaveis numa array (que tambem possui o metodo 'includes'), torna-se possível a comparação com 'employeeName' */
   const nameCheck = (employee) => ([employee.firstName, employee.lastName].includes(employeeName));
   const selectedEmployee = allEmployees.find(nameCheck);
   return selectedEmployee;
