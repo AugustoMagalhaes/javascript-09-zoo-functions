@@ -6,7 +6,7 @@ const [stephanieId, olaId, burlId] = ['9e7d4524-363c-416a-8759-8aa7e50c0992',
 
 function isManager(id) {
   // seu código aqui
-  return [stephanieId, olaId, burlId].includes(id);
+  return [stephanieId, olaId, burlId, 'b0dc644a-5335-489b-8a2c-4e086c7819a2'].includes(id);
 }
 
 const relatedEmployees = (list, id) => list.reduce((related, employee) => {
