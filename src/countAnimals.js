@@ -1,11 +1,12 @@
 const data = require('../data/zoo_data');
 
 const genericReduce = (list) => {
-  let obj2 = list;
-  return obj2.reduce((obj, animal) => {
-    obj = {animal.name : animal.residents.length};
+  const reducer = list.reduce((animalObject, currentAnimal) => {
+    const obj = animalObject; // lint dizia que não se pode reatribuir parametro, apesar de ser um reduce...
+    obj[currentAnimal.name] = currentAnimal.residents.length;
     return obj;
   }, {});
+  return reducer;
 };
 
 function countAnimals(animal) {
@@ -15,7 +16,5 @@ function countAnimals(animal) {
     return genericReduce(animalsList);
   }
 }
-
-console.log(countAnimals());
 
 module.exports = countAnimals;
