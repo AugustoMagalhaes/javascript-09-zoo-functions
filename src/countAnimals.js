@@ -8,13 +8,15 @@ const genericReduce = (list) => {
   }, {});
   return reducer;
 };
-
 function countAnimals(animal) {
   // seu código aqui
   const animalsList = data.species;
   if (!animal) {
     return genericReduce(animalsList);
   }
+  const whichAnimal = animalsList.find((element) => element.name === animal.specie);
+  const filteredBySex = whichAnimal.residents.filter((element) => element.sex === animal.sex);
+  return (animal.sex) ? filteredBySex.length : whichAnimal.residents.length;
 }
 
 module.exports = countAnimals;
