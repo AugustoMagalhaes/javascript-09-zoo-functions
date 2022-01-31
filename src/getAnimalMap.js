@@ -1,43 +1,44 @@
 const data = require('../data/zoo_data');
 
 const getLocation = (list) => {
-  const obj = {};
-  ['NE', 'NW', 'SE', 'SW'].forEach((locationX) => {
-    obj[locationX] = [];
+  const animalLocations = {};
+  ['NE', 'NW', 'SE', 'SW'].forEach((singleLocation) => {
+    animalLocations[singleLocation] = [];
     list.forEach((element) => {
-      if (element.location === locationX) {
-        obj[locationX].push(element.name);
+      if (element.location === singleLocation) {
+        animalLocations[singleLocation].push(element.name);
       }
     });
   });
-  return obj;
+  return animalLocations;
 };
 
-const animalArray = (filteredArray, sortBool) => {
-  //const result = [];
+const animalArray = (filteredArray, options) => {
   const result = filteredArray.reduce((acc, curr) => {
-    const foundAnimal = data.species.find((element) => element.name === curr).residents;
-    const agora = {};
-    agora[curr] = [];
-    foundAnimal.forEach((element) => agora[curr].push(element.name));
-    if (sortBool === true) {
-      agora[curr].sort();
+    let foundAnimal = data.species.find((element) => element.name === curr).residents;
+    const animalObject = {};
+    animalObject[curr] = [];
+    if (options.sex) {
+      foundAnimal = foundAnimal.filter((animal) => animal.sex === options.sex);
     }
-    acc.push(agora);
-    //result[curr] = acc;
+    foundAnimal.forEach((element) => animalObject[curr].push(element.name));
+    if (options.sorted === true) {
+      animalObject[curr].sort();
+    }
+    acc.push(animalObject);
     return acc;
   }, []);
   return result;
 };
 
-const filterAnimalsByName = (sortBool) => {
+const filterAnimalsByName = (options) => {
   const { NE: nEast, NW: nWest, SE: sEast, SW: sWest } = getLocation(data.species);
 
   return {
-    NE: animalArray(nEast, sortBool),
-    NW: animalArray(nWest, sortBool),
-    SE: animalArray(sEast, sortBool),
-    SW: animalArray(sWest, sortBool),
+    NE: animalArray(nEast, options),
+    NW: animalArray(nWest, options),
+    SE: animalArray(sEast, options),
+    SW: animalArray(sWest, options),
   };
 };
 
@@ -48,10 +49,8 @@ function getAnimalMap(options) {
     return getLocation(dataSpecies);
   }
   if (options.includeNames) {
-    return filterAnimalsByName(options.sorted);
+    return filterAnimalsByName(options);
   }
 }
 
-console.log(getAnimalMap({ includeNames: true }));
-//getAnimalMap({ includeNames: true });
 module.exports = getAnimalMap;
