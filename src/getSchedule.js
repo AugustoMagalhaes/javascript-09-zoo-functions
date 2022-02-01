@@ -3,7 +3,9 @@ const data = require('../data/zoo_data');
 const dataHours = data.hours;
 const dataSpecies = data.species;
 const allAnimals = dataSpecies.map((animal) => animal.name);
-const allPossibleArguments = [...allAnimals, ...Object.keys(dataHours)];
+const dayNames = Object.keys(dataHours);
+const dayHours = Object.values(dataHours);
+const allAllowedArguments = [...allAnimals, ...dayNames];
 
 const exhibitedAnimals = (day) => {
   const filteredAnimals = dataSpecies.filter((animal) => animal.availability.includes(day));
@@ -13,8 +15,6 @@ const exhibitedAnimals = (day) => {
 
 const daySchedule = (...dayParam) => {
   const expected = {};
-  const dayNames = Object.keys(dataHours);
-  const dayHours = Object.values(dataHours);
   dayNames.forEach((day, index, array) => {
     const openingHours = dayHours[index];
     const singleDay = {
@@ -31,11 +31,18 @@ const daySchedule = (...dayParam) => {
 
 function getSchedule(scheduleTarget) {
   // seu código aqui
-  if (!scheduleTarget || !allPossibleArguments.includes(scheduleTarget)) {
-    return daySchedule();
+  const completeSchedule = daySchedule();
+  if (!allAllowedArguments.includes(scheduleTarget)) {
+    return completeSchedule;
+  }
+  if (dayNames.includes(scheduleTarget)) {
+    const targetDaySchedule = { [`${scheduleTarget}`]: completeSchedule[scheduleTarget] };
+    return targetDaySchedule;
+  }
+  if (allAnimals.includes(scheduleTarget)) {
+    const targetAnimal = dataSpecies.find((animal) => animal.name === scheduleTarget);
+    return targetAnimal.availability;
   }
 }
-
-console.log(getSchedule('radiohead'));
 
 module.exports = getSchedule;
