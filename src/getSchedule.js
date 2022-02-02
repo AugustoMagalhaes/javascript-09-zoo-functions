@@ -14,7 +14,7 @@ const exhibitedAnimals = (day) => {
 };
 
 const daySchedule = (...dayParam) => {
-  const expected = {};
+  const schedule = {};
   dayNames.forEach((day, index, array) => {
     const openingHours = dayHours[index];
     const singleDay = {
@@ -24,9 +24,9 @@ const daySchedule = (...dayParam) => {
       exhibition: (exhibitedAnimals(day).length > 0) ? exhibitedAnimals(day)
         : 'The zoo will be closed!',
     };
-    expected[day] = singleDay;
+    schedule[day] = singleDay;
   });
-  return expected;
+  return schedule;
 };
 
 function getSchedule(scheduleTarget) {
