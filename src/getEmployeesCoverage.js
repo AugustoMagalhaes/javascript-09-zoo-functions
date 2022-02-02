@@ -8,11 +8,12 @@ const getAnimalName = (coveredId) => allSpecies.find((animal) => animal.id === c
 const getAnimalLocation = (coveredId) => allSpecies.find((animal) =>
   animal.id === coveredId).location;
 
-console.log(getAnimalLocation('bb2a76d8-5fe3-4d03-84b7-dba9cfc048b5'));
-
-const findEmployeeCoverage = (employeeInfo) => {
+const singleEmployeeCoverage = (employeeInfo) => {
   const info = Object.values(employeeInfo);
   const findEmployee = allEmployees.find((employee) => Object.values(employee).includes(...info));
+  if (!findEmployee) {
+    throw new Error('Informações inválidas');
+  }
   return {
     id: `${findEmployee.id}`,
     fullName: `${findEmployee.firstName} ${findEmployee.lastName}`,
@@ -24,11 +25,10 @@ const findEmployeeCoverage = (employeeInfo) => {
 function getEmployeesCoverage(employeeInfo) {
   // seu código aqui
   if (!employeeInfo) {
-    const allEmployeesCoverage = allEmployees.map(findEmployeeCoverage);
+    const allEmployeesCoverage = allEmployees.map(singleEmployeeCoverage);
     return allEmployeesCoverage;
   }
-  return findEmployeeCoverage(employeeInfo);
+  return singleEmployeeCoverage(employeeInfo);
 }
 
-console.log(getEmployeesCoverage());
 module.exports = getEmployeesCoverage;
